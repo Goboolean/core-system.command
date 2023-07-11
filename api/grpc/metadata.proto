@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package grpcapi;
+
+option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
+
+// Provide the temporary command or query
+//
+// - Login command
+// - Logout command
+// - Personal information query command
+// - Stock information query command
+// - Model information query command
+// - Stock list information query command
+// - Model list information query command
+// - Experiment result information query command
+//
+service MetadataService {
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc Logout(LogoutRequest) returns (LogoutResponse) {}
+  rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse) {}
+  rpc GetStockInfo(GetStockInfoRequest) returns (GetStockInfoResponse) {}
+  rpc GetModelInfo(GetModelInfoRequest) returns (GetModelInfoResponse) {}
+  rpc GetStockList(GetStockListRequest) returns (GetStockListResponse) {}
+  rpc GetModelList(GetModelListRequest) returns (GetModelListResponse) {}
+  rpc GetExperimentResult(GetExperimentResultRequest) returns (GetExperimentResultResponse) {}
+}
+
+
+// Login command
+message LoginRequest {
+  string id = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  int32 status = 1;
+  string user_token = 2;
+}
+
+
+// Logout command
+message LogoutRequest {
+  string user_token = 1;
+}
+
+message LogoutResponse {
+  int32 status = 1;
+}
+
+
+// Personal information query command
+message GetUserInfoRequest {
+  string user_token = 1; // To verify access to information
+}
+
+message GetUserInfoResponse {
+  // need implement
+}
+
+
+// Stock information query command
+message GetStockInfoRequest {
+  string stock_id = 1;
+}
+
+message GetStockInfoResponse {
+  // need implement
+}
+
+
+// Model information query command
+message GetModelInfoRequest {
+  string user_token = 1; // To verify access to information
+  // need implement
+}
+
+message GetModelInfoResponse {
+  // need implement
+}
+
+
+// Stock list information query command
+message GetStockListRequest {
+  // need implement
+}
+
+message GetStockListResponse {
+  // need implement
+}
+
+
+// Model list information query command
+message GetModelListRequest {
+  string user_token = 1; // To verify access to information
+  // need implement
+}
+
+message GetModelListResponse {
+  // need implement
+}
+
+
+// Experiment result information query command
+message GetExperimentResultRequest {
+  string user_token = 1; // To verify access to information
+  string model_id = 2;
+  string stock_id = 3;
+  string parameter = 4;
+  string start_date = 5;
+  string end_date = 6;
+}
+
+message GetExperimentResultResponse {
+  // need implement
+}
