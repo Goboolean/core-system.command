@@ -1,3 +1,8 @@
+/*
+Package grpcapi provides the interface of the gRPC methods.
+
+All command server's services are provided by this interfaces.
+*/
 syntax = "proto3";
 
 package grpcapi;

@@ -1,12 +1,11 @@
-/**
- * Implementation of the gRPC methods.
- * The interfaces are defined in the proto file.
- * api/grpc/metadata.proto
- *
- * All command server's services are provided by this adapter.
- */
+/*
+Package grpcadapter provides the implementation of the gRPC methods.
 
-package adapter
+The interfaces are defined in the proto file(api/grpc/metadata.proto).
+
+All command server's services are provided by this adapter.
+*/
+package grpcadapter
 
 import (
 	"context"
