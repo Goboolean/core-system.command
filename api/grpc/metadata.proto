@@ -4,17 +4,17 @@ package grpcapi;
 
 option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
 
-// Provide the temporary command or query
-//
-// - Login command
-// - Logout command
-// - Personal information query command
-// - Stock information query command
-// - Model information query command
-// - Stock list information query command
-// - Model list information query command
-// - Experiment result information query command
-//
+/* Provide the temporary command or query
+ *
+ * - Login command
+ * - Logout command
+ * - Personal information query command
+ * - Stock information query command
+ * - Model information query command
+ * - Stock list information query command
+ * - Model list information query command
+ * - Experiment result information query command
+ */
 service MetadataService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc Logout(LogoutRequest) returns (LogoutResponse) {}
