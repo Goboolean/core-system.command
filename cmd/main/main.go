@@ -28,7 +28,7 @@ func main() {
 
 	select {
 	case <-ctx.Done():
-		// Every fatel error will be catched here.
+		// Every fatal error will be caught here.
 		if err := ctx.Err(); err != nil {
 			log.Fatal(err)
 		}
