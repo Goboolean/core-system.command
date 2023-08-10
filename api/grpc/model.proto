@@ -1,0 +1,69 @@
+/*
+Package grpcapi provides the interface of the gRPC methods.
+
+All command server's services are provided by this interfaces.
+
+model.proto provides services related to model registration, modification, simulation, etc.
+
+Generate gRPC code:
+  protoc --go_out=. --go_opt=paths=source_relative \
+  --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+  api/grpc/model.proto
+*/
+syntax = "proto3";
+
+package grpcapi;
+
+option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
+
+service ModelService {
+
+  rpc RegisterModel(RegisterModelRequest) returns (RegisterModelResponse) {}
+
+  // Returns to the stream what state the model being simulated is in.
+  // When the simulation is finished, return access_token
+  // and allow the result to be retrieved from the join server.
+  rpc SimulationModel(SimulationModelRequest) returns (stream SimulationStatus) {}
+
+
+  rpc EditModel(EditModelRequest) returns (EditModelResponse) {}
+}
+
+
+
+// need implement
+message RegisterModelRequest {
+  int64 user_token = 1;
+  repeated int64 parameter = 2;
+}
+
+// need implement
+message RegisterModelResponse {
+  int64 model_id = 1;
+  int64 status = 2;
+}
+
+// need implement about parameter
+message SimulationModelRequest {
+  int64 user_token = 1;
+  int64 model_id = 2;
+  string stock = 3;
+  repeated int64 parameter = 4;
+}
+
+message SimulationStatus {
+  int64 status = 1;         // simulation status
+  string access_token = 2;  // token for accessing join server
+}
+
+// need implement
+message EditModelRequest {
+  int64 user_token = 1;
+  int64 model_id = 2;
+  repeated int64 parameter = 3;
+}
+
+// need implement
+message EditModelResponse {
+  int64 status = 1;
+}
