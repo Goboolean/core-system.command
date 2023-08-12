@@ -20,7 +20,7 @@ import (
 
 type Host struct {
 	server *grpc.Server
-	impl   *grpcadapter.MetadataCommandAdapter
+	impl   *grpcadapter.Adapter
 }
 
 var (
@@ -28,7 +28,7 @@ var (
 	once     sync.Once
 )
 
-func New(adapter *grpcadapter.MetadataCommandAdapter) *Host {
+func New(adapter *grpcadapter.Adapter) *Host {
 	once.Do(func() {
 		instance = &Host{
 			impl: adapter,

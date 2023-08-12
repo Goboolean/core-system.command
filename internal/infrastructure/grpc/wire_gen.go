@@ -13,8 +13,8 @@ import (
 
 // Injectors from wire.go:
 
-func InitializeHost(ctx context.Context) (*Host, error) {
-	metadataCommandAdapter := grpcadapter.New()
-	host := New(metadataCommandAdapter)
+func initializeHost(ctx context.Context) (*Host, error) {
+	adapter := grpcadapter.New()
+	host := New(adapter)
 	return host, nil
 }
