@@ -12,18 +12,19 @@ import (
 	"sync"
 )
 
-type MetadataCommandAdapter struct {
+type Adapter struct {
 	grpcapi.UnimplementedMetadataServiceServer
+	grpcapi.UnimplementedModelServiceServer
 }
 
 var (
-	instance *MetadataCommandAdapter
+	instance *Adapter
 	once     sync.Once
 )
 
-func New() *MetadataCommandAdapter {
+func New() *Adapter {
 	once.Do(func() {
-		instance = &MetadataCommandAdapter{}
+		instance = &Adapter{}
 	})
 
 	return instance
