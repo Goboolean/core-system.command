@@ -1,9 +1,7 @@
 /*
 Package grpcapi provides the interface of the gRPC methods.
 
-All command server's services are provided by this interfaces.
-
-model.proto provides services related to model registration, modification, simulation, etc.
+All commands for services to model management is provided by this interfaces.
 
 Generate gRPC code:
   protoc --go_out=. --go_opt=paths=source_relative \
@@ -16,6 +14,9 @@ package grpcapi;
 
 option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
 
+// ModelService
+//
+// Provides services to model management
 service ModelService {
 
   rpc RegisterModel(RegisterModelRequest) returns (RegisterModelResponse) {}
@@ -31,47 +32,49 @@ service ModelService {
 }
 
 
-
 // need implement
 message RegisterModelRequest {
-  int64 user_token = 1;
+  string user_token = 1;
   // need to add model info
 }
 
 message RegisterModelResponse {
-  int64 model_id = 1;
-  int64 status = 2;
+  int32 status = 1;
+  string model_id = 2;
 }
+
 
 // need implement about parameter
 message SimulationModelRequest {
-  int64 user_token = 1;
-  int64 model_id = 2;
-  string stock = 3;
+  string user_token = 1;
+  string model_id = 2;
+  string stock_id = 3;
   repeated int64 parameter = 4;
 }
 
 message SimulationStatus {
-  int64 status = 1;         // simulation status
+  int32 status = 1;         // simulation status
   string access_token = 2;  // token for accessing join server
 }
 
+
 // need implement
 message EditModelRequest {
-  int64 user_token = 1;
-  int64 model_id = 2;
+  string user_token = 1;
+  string model_id = 2;
   // need to add model info
 }
 
 message EditModelResponse {
-  int64 status = 1;
+  int32 status = 1;
 }
 
+
 message DeleteModelRequest {
-  int64 user_token = 1;
-  int64 model_id = 2;
+  string user_token = 1;
+  string model_id = 2;
 }
 
 message DeleteModelResponse {
-  int64 status = 1;
+  int32 status = 1;
 }

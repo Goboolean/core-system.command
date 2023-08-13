@@ -1,7 +1,12 @@
 /*
 Package grpcapi provides the interface of the gRPC methods.
 
-All command server's services are provided by this interfaces.
+All commands for data requests is provided by this interfaces.
+
+Generate gRPC code:
+  protoc --go_out=. --go_opt=paths=source_relative \
+  --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+  api/grpc/metadata.proto
 */
 syntax = "proto3";
 
@@ -9,48 +14,17 @@ package grpcapi;
 
 option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
 
-/* Provide the temporary command or query
- *
- * - Login command
- * - Logout command
- * - Personal information query command
- * - Stock information query command
- * - Model information query command
- * - Stock list information query command
- * - Model list information query command
- * - Experiment result information query command
- */
+// MedataService
+//
+// Provides commands for requests related to data
 service MetadataService {
-  rpc Login(LoginRequest) returns (LoginResponse) {}
-  rpc Logout(LogoutRequest) returns (LogoutResponse) {}
   rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse) {}
   rpc GetStockInfo(GetStockInfoRequest) returns (GetStockInfoResponse) {}
   rpc GetModelInfo(GetModelInfoRequest) returns (GetModelInfoResponse) {}
   rpc GetStockList(GetStockListRequest) returns (GetStockListResponse) {}
   rpc GetModelList(GetModelListRequest) returns (GetModelListResponse) {}
-  rpc GetExperimentResult(GetExperimentResultRequest) returns (GetExperimentResultResponse) {}
-}
-
-
-// Login command
-message LoginRequest {
-  string id = 1;
-  string password = 2;
-}
-
-message LoginResponse {
-  int32 status = 1;
-  string user_token = 2;
-}
-
-
-// Logout command
-message LogoutRequest {
-  string user_token = 1;
-}
-
-message LogoutResponse {
-  int32 status = 1;
+  rpc GetSimulationResult(GetSimulationResultRequest) returns (stream GetSimulationResultResponse) {}
+  rpc GetSimulationList(GetSimulationListRequest) returns (GetSimulationListResponse) {}
 }
 
 
@@ -77,7 +51,7 @@ message GetStockInfoResponse {
 // Model information query command
 message GetModelInfoRequest {
   string user_token = 1; // To verify access to information
-  // need implement
+  string model_id = 2;
 }
 
 message GetModelInfoResponse {
@@ -106,16 +80,23 @@ message GetModelListResponse {
 }
 
 
-// Experiment result information query command
-message GetExperimentResultRequest {
+// Simulation result information query command
+message GetSimulationResultRequest {
   string user_token = 1; // To verify access to information
-  string model_id = 2;
-  string stock_id = 3;
-  string parameter = 4;
-  string start_date = 5;
-  string end_date = 6;
+  string simulation_id = 2;
 }
 
-message GetExperimentResultResponse {
-  // need implement
+message GetSimulationResultResponse {
+  int32 status = 1;
+  string access_token = 2;
+}
+
+
+// Simulation list information query command
+message GetSimulationListRequest {
+  string user_token = 1; // To verify access to information
+}
+
+message GetSimulationListResponse {
+  repeated string simulation_id = 1;
 }
