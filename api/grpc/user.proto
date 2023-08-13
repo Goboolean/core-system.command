@@ -17,7 +17,7 @@ option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
 // MetadataService
 //
 // Provide commands that correspond to the domain for authorization
-service MetadataService {
+service UserService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc Logout(LogoutRequest) returns (LogoutResponse) {}
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {}
