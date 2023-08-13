@@ -12,7 +12,7 @@ package main
 import (
 	"context"
 	"flag"
-	grpcapi "github.com/Goboolean/command-server/api/grpc"
+	"github.com/Goboolean/command-server/api/grpc/user"
 	"log"
 	"time"
 
@@ -33,12 +33,12 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := grpcapi.NewMetadataServiceClient(conn)
+	c := user.NewUserServiceClient(conn)
 
 	// Contact the server and print out its response.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.Login(ctx, &grpcapi.LoginRequest{Id: "test", Password: "test"})
+	r, err := c.Login(ctx, &user.LoginRequest{Id: "test", Password: "test"})
 	if err != nil {
 		log.Fatalf("could not login: %v", err)
 	}

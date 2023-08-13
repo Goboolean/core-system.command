@@ -10,8 +10,12 @@ package grpcserver
 import (
 	"context"
 	"fmt"
-	grpcapi "github.com/Goboolean/command-server/api/grpc"
-	grpcadapter "github.com/Goboolean/command-server/internal/adapter/grpc"
+	metadataapi "github.com/Goboolean/command-server/api/grpc/metadata"
+	modelapi "github.com/Goboolean/command-server/api/grpc/model"
+	userapi "github.com/Goboolean/command-server/api/grpc/user"
+	metadataadapter "github.com/Goboolean/command-server/internal/adapter/grpc/metadata"
+	modeladapter "github.com/Goboolean/command-server/internal/adapter/grpc/model"
+	useradapter "github.com/Goboolean/command-server/internal/adapter/grpc/user"
 	"google.golang.org/grpc"
 	"net"
 	"os"
@@ -19,8 +23,10 @@ import (
 )
 
 type Host struct {
-	server *grpc.Server
-	impl   *grpcadapter.Adapter
+	server          *grpc.Server
+	metadataAdapter *metadataadapter.MetadataAdapter
+	modelAdapter    *modeladapter.ModelAdapter
+	userAdapter     *useradapter.UserAdapter
 }
 
 var (
@@ -28,10 +34,12 @@ var (
 	once     sync.Once
 )
 
-func New(adapter *grpcadapter.Adapter) *Host {
+func New(metaA *metadataadapter.MetadataAdapter, modelA *modeladapter.ModelAdapter, userA *useradapter.UserAdapter) *Host {
 	once.Do(func() {
 		instance = &Host{
-			impl: adapter,
+			metadataAdapter: metaA,
+			modelAdapter:    modelA,
+			userAdapter:     userA,
 		}
 	})
 
@@ -60,7 +68,9 @@ func (h *Host) Run(ctx context.Context) {
 
 	// make new grpc server and register adapter
 	h.server = grpc.NewServer()
-	grpcapi.RegisterMetadataServiceServer(h.server, h.impl)
+	metadataapi.RegisterMetadataServiceServer(h.server, h.metadataAdapter)
+	modelapi.RegisterModelServiceServer(h.server, h.modelAdapter)
+	userapi.RegisterUserServiceServer(h.server, h.userAdapter)
 
 	// start server
 	go func() {

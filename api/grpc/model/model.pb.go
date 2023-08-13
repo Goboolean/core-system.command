@@ -14,7 +14,7 @@
 // 	protoc        v4.23.3
 // source: api/grpc/model.proto
 
-package grpcapi
+package model
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"

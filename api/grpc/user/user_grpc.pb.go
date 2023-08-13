@@ -4,7 +4,7 @@
 // - protoc             v4.23.3
 // source: api/grpc/user.proto
 
-package grpcapi
+package user
 
 import (
 	context "context"

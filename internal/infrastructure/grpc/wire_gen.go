@@ -8,13 +8,17 @@ package grpcserver
 
 import (
 	"context"
-	"github.com/Goboolean/command-server/internal/adapter/grpc"
+	"github.com/Goboolean/command-server/internal/adapter/grpc/metadata"
+	grpcadapter2 "github.com/Goboolean/command-server/internal/adapter/grpc/model"
+	grpcadapter3 "github.com/Goboolean/command-server/internal/adapter/grpc/user"
 )
 
 // Injectors from wire.go:
 
-func initializeHost(ctx context.Context) (*Host, error) {
-	adapter := grpcadapter.New()
-	host := New(adapter)
+func InitializeHost(ctx context.Context) (*Host, error) {
+	metadataAdapter := grpcadapter.New()
+	modelAdapter := grpcadapter2.New()
+	userAdapter := grpcadapter3.New()
+	host := New(metadataAdapter, modelAdapter, userAdapter)
 	return host, nil
 }

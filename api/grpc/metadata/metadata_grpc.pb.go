@@ -4,7 +4,7 @@
 // - protoc             v4.23.3
 // source: api/grpc/metadata.proto
 
-package grpcapi
+package metadata
 
 import (
 	context "context"

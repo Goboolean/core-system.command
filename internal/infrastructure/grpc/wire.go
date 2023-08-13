@@ -5,11 +5,13 @@ package grpcserver
 
 import (
 	"context"
-	grpcadapter "github.com/Goboolean/command-server/internal/adapter/grpc"
+	metadataadapter "github.com/Goboolean/command-server/internal/adapter/grpc/metadata"
+	modeladapter "github.com/Goboolean/command-server/internal/adapter/grpc/model"
+	useradapter "github.com/Goboolean/command-server/internal/adapter/grpc/user"
 	"github.com/google/wire"
 )
 
 func initializeHost(ctx context.Context) (*Host, error) {
-	wire.Build(grpcadapter.New, New)
+	wire.Build(New, metadataadapter.New, modeladapter.New, useradapter.New)
 	return &Host{}, nil
 }
