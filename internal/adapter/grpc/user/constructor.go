@@ -1,29 +1,29 @@
 /*
-Package grpcadapter provides the implementation of the gRPC methods.
+Package user provides the implementation of the gRPC methods.
 
 The interfaces are defined in the proto file(api/grpc/user/user.proto).
 
 All commands about authorization services are provided by this adapter.
 */
-package grpcadapter
+package user
 
 import (
-	grpcapi "github.com/Goboolean/command-server/api/grpc/user"
+	api "github.com/Goboolean/command-server/api/grpc/user"
 	"sync"
 )
 
-type UserAdapter struct {
-	grpcapi.UnimplementedUserServiceServer
+type Adapter struct {
+	api.UnimplementedUserServiceServer
 }
 
 var (
-	instance *UserAdapter
+	instance *Adapter
 	once     sync.Once
 )
 
-func New() *UserAdapter {
+func New() *Adapter {
 	once.Do(func() {
-		instance = &UserAdapter{}
+		instance = &Adapter{}
 	})
 
 	return instance

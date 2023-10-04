@@ -1,29 +1,29 @@
 /*
-Package grpcadapter provides the implementation of the gRPC methods.
+Package model provides the implementation of the gRPC methods.
 
 The interfaces are defined in the proto file(api/grpc/model/model.proto).
 
 All commands for services to model management are provided by this adapter.
 */
-package grpcadapter
+package model
 
 import (
-	grpcapi "github.com/Goboolean/command-server/api/grpc/model"
+	api "github.com/Goboolean/command-server/api/grpc/model"
 	"sync"
 )
 
-type ModelAdapter struct {
-	grpcapi.UnimplementedModelServiceServer
+type Adapter struct {
+	api.UnimplementedModelServiceServer
 }
 
 var (
-	instance *ModelAdapter
+	instance *Adapter
 	once     sync.Once
 )
 
-func New() *ModelAdapter {
+func New() *Adapter {
 	once.Do(func() {
-		instance = &ModelAdapter{}
+		instance = &Adapter{}
 	})
 
 	return instance

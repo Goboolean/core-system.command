@@ -12,10 +12,12 @@ import (
 	"fmt"
 	metadataapi "github.com/Goboolean/command-server/api/grpc/metadata"
 	modelapi "github.com/Goboolean/command-server/api/grpc/model"
+	simulationapi "github.com/Goboolean/command-server/api/grpc/simulation"
 	userapi "github.com/Goboolean/command-server/api/grpc/user"
-	metadataadapter "github.com/Goboolean/command-server/internal/adapter/grpc/metadata"
-	modeladapter "github.com/Goboolean/command-server/internal/adapter/grpc/model"
-	useradapter "github.com/Goboolean/command-server/internal/adapter/grpc/user"
+	metadata "github.com/Goboolean/command-server/internal/adapter/grpc/metadata"
+	model "github.com/Goboolean/command-server/internal/adapter/grpc/model"
+	simulation "github.com/Goboolean/command-server/internal/adapter/grpc/simulation"
+	user "github.com/Goboolean/command-server/internal/adapter/grpc/user"
 	"google.golang.org/grpc"
 	"net"
 	"os"
@@ -23,10 +25,11 @@ import (
 )
 
 type Host struct {
-	server          *grpc.Server
-	metadataAdapter *metadataadapter.MetadataAdapter
-	modelAdapter    *modeladapter.ModelAdapter
-	userAdapter     *useradapter.UserAdapter
+	server            *grpc.Server
+	metadataAdapter   *metadata.Adapter
+	modelAdapter      *model.Adapter
+	simulationAdapter *simulation.Adapter
+	userAdapter       *user.Adapter
 }
 
 var (
@@ -34,12 +37,13 @@ var (
 	once     sync.Once
 )
 
-func New(metaA *metadataadapter.MetadataAdapter, modelA *modeladapter.ModelAdapter, userA *useradapter.UserAdapter) *Host {
+func New(metaA *metadata.Adapter, modelA *model.Adapter, simulationA *simulation.Adapter, userA *user.Adapter) *Host {
 	once.Do(func() {
 		instance = &Host{
-			metadataAdapter: metaA,
-			modelAdapter:    modelA,
-			userAdapter:     userA,
+			metadataAdapter:   metaA,
+			modelAdapter:      modelA,
+			simulationAdapter: simulationA,
+			userAdapter:       userA,
 		}
 	})
 
@@ -70,6 +74,7 @@ func (h *Host) Run(ctx context.Context) {
 	h.server = grpc.NewServer()
 	metadataapi.RegisterMetadataServiceServer(h.server, h.metadataAdapter)
 	modelapi.RegisterModelServiceServer(h.server, h.modelAdapter)
+	simulationapi.RegisterSimulationServiceServer(h.server, h.simulationAdapter)
 	userapi.RegisterUserServiceServer(h.server, h.userAdapter)
 
 	// start server

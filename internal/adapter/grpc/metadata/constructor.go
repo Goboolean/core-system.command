@@ -1,29 +1,29 @@
 /*
-Package grpcadapter provides the implementation of the gRPC methods.
+Package metadata provides the implementation of the gRPC methods.
 
 The interfaces are defined in the proto file(api/grpc/metadata/metadata.proto).
 
 All commands for data requests are provided by this adapter.
 */
-package grpcadapter
+package metadata
 
 import (
-	grpcapi "github.com/Goboolean/command-server/api/grpc/metadata"
+	api "github.com/Goboolean/command-server/api/grpc/metadata"
 	"sync"
 )
 
-type MetadataAdapter struct {
-	grpcapi.UnimplementedMetadataServiceServer
+type Adapter struct {
+	api.UnimplementedMetadataServiceServer
 }
 
 var (
-	instance *MetadataAdapter
+	instance *Adapter
 	once     sync.Once
 )
 
-func New() *MetadataAdapter {
+func New() *Adapter {
 	once.Do(func() {
-		instance = &MetadataAdapter{}
+		instance = &Adapter{}
 	})
 
 	return instance
