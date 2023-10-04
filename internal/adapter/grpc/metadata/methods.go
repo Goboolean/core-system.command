@@ -10,7 +10,7 @@ package metadata
 import (
 	"context"
 	"fmt"
-	api "github.com/Goboolean/command-server/api/grpc/metadata"
+	api "github.com/Goboolean/core-system.command/api/grpc/metadata"
 )
 
 func (a *Adapter) GetUserInfo(ctx context.Context, in *api.GetUserInfoRequest) (nil *api.GetUserInfoResponse, err error) {

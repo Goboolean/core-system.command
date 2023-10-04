@@ -8,7 +8,7 @@ All commands for data requests are provided by this adapter.
 package metadata
 
 import (
-	api "github.com/Goboolean/command-server/api/grpc/metadata"
+	api "github.com/Goboolean/core-system.command/api/grpc/metadata"
 	"sync"
 )
 

@@ -8,7 +8,7 @@ All commands about authorization services are provided by this adapter.
 package user
 
 import (
-	api "github.com/Goboolean/command-server/api/grpc/user"
+	api "github.com/Goboolean/core-system.command/api/grpc/user"
 	"sync"
 )
 

@@ -1,4 +1,4 @@
-module github.com/Goboolean/command-server
+module github.com/Goboolean/core-system.command
 
 go 1.20
 

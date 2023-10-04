@@ -8,7 +8,7 @@ All commands for services to model management are provided by this adapter.
 package model
 
 import (
-	api "github.com/Goboolean/command-server/api/grpc/model"
+	api "github.com/Goboolean/core-system.command/api/grpc/model"
 	"sync"
 )
 

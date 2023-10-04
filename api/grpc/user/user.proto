@@ -14,7 +14,7 @@ syntax = "proto3";
 
 package user;
 
-option go_package = "github.com/Goboolean/command-server/api/grpc;user";
+option go_package = "github.com/Goboolean/core-system.command/api/grpc;user";
 
 // MetadataService
 //

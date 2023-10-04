@@ -12,7 +12,7 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/Goboolean/command-server/api/grpc/user"
+	"github.com/Goboolean/core-system.command/api/grpc/user"
 	"log"
 	"time"
 

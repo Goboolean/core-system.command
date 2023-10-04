@@ -12,7 +12,7 @@ syntax = "proto3";
 
 package model;
 
-option go_package = "github.com/Goboolean/command-server/api/grpc;model";
+option go_package = "github.com/Goboolean/core-system.command/api/grpc;model";
 
 // ModelService
 //

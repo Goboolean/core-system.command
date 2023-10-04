@@ -10,7 +10,7 @@ package model
 import (
 	"context"
 	"fmt"
-	api "github.com/Goboolean/command-server/api/grpc/model"
+	api "github.com/Goboolean/core-system.command/api/grpc/model"
 )
 
 func (a *Adapter) RegisterModel(ctx context.Context, in *api.RegisterModelRequest) (nil *api.RegisterModelResponse, err error) {

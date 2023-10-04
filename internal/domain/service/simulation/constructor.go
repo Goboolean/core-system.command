@@ -10,10 +10,10 @@ simulation의 결과를 관리합니다.
 package simulation
 
 import (
-	"github.com/Goboolean/command-server/internal/domain/port/out"
-	"github.com/Goboolean/command-server/internal/domain/service/metadata"
-	"github.com/Goboolean/command-server/internal/domain/service/model"
-	"github.com/Goboolean/command-server/internal/domain/service/task"
+	"github.com/Goboolean/core-system.command/internal/domain/port/out"
+	"github.com/Goboolean/core-system.command/internal/domain/service/metadata"
+	"github.com/Goboolean/core-system.command/internal/domain/service/model"
+	"github.com/Goboolean/core-system.command/internal/domain/service/task"
 	"sync"
 )
 

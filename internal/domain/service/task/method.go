@@ -8,10 +8,10 @@ package task
 import (
 	"context"
 	"fmt"
-	"github.com/Goboolean/command-server/internal/domain/entity"
-	"github.com/Goboolean/command-server/internal/util/hash"
-	"github.com/Goboolean/command-server/internal/util/log"
-	"github.com/Goboolean/command-server/internal/util/msg"
+	"github.com/Goboolean/core-system.command/internal/domain/entity"
+	"github.com/Goboolean/core-system.command/internal/util/hash"
+	"github.com/Goboolean/core-system.command/internal/util/log"
+	"github.com/Goboolean/core-system.command/internal/util/msg"
 	"go.uber.org/zap"
 )
 

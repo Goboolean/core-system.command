@@ -1,6 +1,6 @@
 package msg
 
-import "github.com/Goboolean/command-server/internal/domain/entity"
+import "github.com/Goboolean/core-system.command/internal/domain/entity"
 
 func ServerError() *entity.TaskAllocResponse {
 	return &entity.TaskAllocResponse{

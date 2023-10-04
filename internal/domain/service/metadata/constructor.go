@@ -6,7 +6,7 @@ Manager 객체는 metadata를 관리하는 객체입니다.
 package metadata
 
 import (
-	"github.com/Goboolean/command-server/internal/domain/port/out"
+	"github.com/Goboolean/core-system.command/internal/domain/port/out"
 	"sync"
 )
 

@@ -12,7 +12,7 @@ syntax = "proto3";
 
 package metadata;
 
-option go_package = "github.com/Goboolean/command-server/api/grpc;metadata";
+option go_package = "github.com/Goboolean/core-system.command/api/grpc;metadata";
 
 // MedataService
 //

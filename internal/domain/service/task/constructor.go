@@ -6,7 +6,7 @@ Manager 객체는 현재 진행되는 작업을 관리하는 객체입니다.
 package task
 
 import (
-	"github.com/Goboolean/command-server/internal/domain/port/out"
+	"github.com/Goboolean/core-system.command/internal/domain/port/out"
 	"go.uber.org/zap"
 	"sync"
 )

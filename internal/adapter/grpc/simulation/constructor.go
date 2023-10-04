@@ -8,7 +8,7 @@ All commands for services to model management are provided by this adapter.
 package simulation
 
 import (
-	grpcapi "github.com/Goboolean/command-server/api/grpc/simulation"
+	grpcapi "github.com/Goboolean/core-system.command/api/grpc/simulation"
 	"sync"
 )
 

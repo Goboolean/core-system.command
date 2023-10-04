@@ -8,7 +8,7 @@ simulation manager에게 작업 할당 책임을 전달합니다.
 package model
 
 import (
-	"github.com/Goboolean/command-server/internal/domain/port/out"
+	"github.com/Goboolean/core-system.command/internal/domain/port/out"
 	"sync"
 )
 

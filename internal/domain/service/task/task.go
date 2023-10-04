@@ -1,8 +1,8 @@
 package task
 
 import (
-	"github.com/Goboolean/command-server/internal/domain/entity"
-	"github.com/Goboolean/command-server/internal/util/msg"
+	"github.com/Goboolean/core-system.command/internal/domain/entity"
+	"github.com/Goboolean/core-system.command/internal/util/msg"
 	"github.com/google/uuid"
 )
 

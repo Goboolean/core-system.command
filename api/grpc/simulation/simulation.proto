@@ -12,7 +12,7 @@ syntax = "proto3";
 
 package simulation;
 
-option go_package = "github.com/Goboolean/command-server/api/grpc;simulation";
+option go_package = "github.com/Goboolean/core-system.command/api/grpc;simulation";
 
 // simulation
 //

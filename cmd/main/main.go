@@ -5,8 +5,8 @@ package main
 
 import (
 	"context"
-	"github.com/Goboolean/command-server/cmd/inject"
-	"github.com/Goboolean/command-server/internal/util/log"
+	"github.com/Goboolean/core-system.command/cmd/inject"
+	"github.com/Goboolean/core-system.command/internal/util/log"
 	"os"
 )
 

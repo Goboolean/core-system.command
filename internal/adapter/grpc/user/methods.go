@@ -10,7 +10,7 @@ package user
 import (
 	"context"
 	"fmt"
-	api "github.com/Goboolean/command-server/api/grpc/user"
+	api "github.com/Goboolean/core-system.command/api/grpc/user"
 )
 
 func (a *Adapter) Login(ctx context.Context, in *api.LoginRequest) (nil *api.LoginResponse, err error) {
