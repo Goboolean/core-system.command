@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.23.3
-// source: api/grpc/metadata.proto
+// source: api/grpc/metadata/metadata.proto
 
 package metadata
 
@@ -24,11 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type MetadataServiceClient interface {
 	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
 	GetStockInfo(ctx context.Context, in *GetStockInfoRequest, opts ...grpc.CallOption) (*GetStockInfoResponse, error)
-	GetModelInfo(ctx context.Context, in *GetModelInfoRequest, opts ...grpc.CallOption) (*GetModelInfoResponse, error)
 	GetStockList(ctx context.Context, in *GetStockListRequest, opts ...grpc.CallOption) (*GetStockListResponse, error)
-	GetModelList(ctx context.Context, in *GetModelListRequest, opts ...grpc.CallOption) (*GetModelListResponse, error)
-	GetSimulationResult(ctx context.Context, in *GetSimulationResultRequest, opts ...grpc.CallOption) (MetadataService_GetSimulationResultClient, error)
-	GetSimulationList(ctx context.Context, in *GetSimulationListRequest, opts ...grpc.CallOption) (*GetSimulationListResponse, error)
 }
 
 type metadataServiceClient struct {
@@ -41,7 +37,7 @@ func NewMetadataServiceClient(cc grpc.ClientConnInterface) MetadataServiceClient
 
 func (c *metadataServiceClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
 	out := new(GetUserInfoResponse)
-	err := c.cc.Invoke(ctx, "/grpcapi.MetadataService/GetUserInfo", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/metadata.MetadataService/GetUserInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -50,16 +46,7 @@ func (c *metadataServiceClient) GetUserInfo(ctx context.Context, in *GetUserInfo
 
 func (c *metadataServiceClient) GetStockInfo(ctx context.Context, in *GetStockInfoRequest, opts ...grpc.CallOption) (*GetStockInfoResponse, error) {
 	out := new(GetStockInfoResponse)
-	err := c.cc.Invoke(ctx, "/grpcapi.MetadataService/GetStockInfo", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *metadataServiceClient) GetModelInfo(ctx context.Context, in *GetModelInfoRequest, opts ...grpc.CallOption) (*GetModelInfoResponse, error) {
-	out := new(GetModelInfoResponse)
-	err := c.cc.Invoke(ctx, "/grpcapi.MetadataService/GetModelInfo", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/metadata.MetadataService/GetStockInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,57 +55,7 @@ func (c *metadataServiceClient) GetModelInfo(ctx context.Context, in *GetModelIn
 
 func (c *metadataServiceClient) GetStockList(ctx context.Context, in *GetStockListRequest, opts ...grpc.CallOption) (*GetStockListResponse, error) {
 	out := new(GetStockListResponse)
-	err := c.cc.Invoke(ctx, "/grpcapi.MetadataService/GetStockList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *metadataServiceClient) GetModelList(ctx context.Context, in *GetModelListRequest, opts ...grpc.CallOption) (*GetModelListResponse, error) {
-	out := new(GetModelListResponse)
-	err := c.cc.Invoke(ctx, "/grpcapi.MetadataService/GetModelList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *metadataServiceClient) GetSimulationResult(ctx context.Context, in *GetSimulationResultRequest, opts ...grpc.CallOption) (MetadataService_GetSimulationResultClient, error) {
-	stream, err := c.cc.NewStream(ctx, &MetadataService_ServiceDesc.Streams[0], "/grpcapi.MetadataService/GetSimulationResult", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &metadataServiceGetSimulationResultClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type MetadataService_GetSimulationResultClient interface {
-	Recv() (*GetSimulationResultResponse, error)
-	grpc.ClientStream
-}
-
-type metadataServiceGetSimulationResultClient struct {
-	grpc.ClientStream
-}
-
-func (x *metadataServiceGetSimulationResultClient) Recv() (*GetSimulationResultResponse, error) {
-	m := new(GetSimulationResultResponse)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *metadataServiceClient) GetSimulationList(ctx context.Context, in *GetSimulationListRequest, opts ...grpc.CallOption) (*GetSimulationListResponse, error) {
-	out := new(GetSimulationListResponse)
-	err := c.cc.Invoke(ctx, "/grpcapi.MetadataService/GetSimulationList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/metadata.MetadataService/GetStockList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -131,11 +68,7 @@ func (c *metadataServiceClient) GetSimulationList(ctx context.Context, in *GetSi
 type MetadataServiceServer interface {
 	GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error)
 	GetStockInfo(context.Context, *GetStockInfoRequest) (*GetStockInfoResponse, error)
-	GetModelInfo(context.Context, *GetModelInfoRequest) (*GetModelInfoResponse, error)
 	GetStockList(context.Context, *GetStockListRequest) (*GetStockListResponse, error)
-	GetModelList(context.Context, *GetModelListRequest) (*GetModelListResponse, error)
-	GetSimulationResult(*GetSimulationResultRequest, MetadataService_GetSimulationResultServer) error
-	GetSimulationList(context.Context, *GetSimulationListRequest) (*GetSimulationListResponse, error)
 	mustEmbedUnimplementedMetadataServiceServer()
 }
 
@@ -149,20 +82,8 @@ func (UnimplementedMetadataServiceServer) GetUserInfo(context.Context, *GetUserI
 func (UnimplementedMetadataServiceServer) GetStockInfo(context.Context, *GetStockInfoRequest) (*GetStockInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStockInfo not implemented")
 }
-func (UnimplementedMetadataServiceServer) GetModelInfo(context.Context, *GetModelInfoRequest) (*GetModelInfoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetModelInfo not implemented")
-}
 func (UnimplementedMetadataServiceServer) GetStockList(context.Context, *GetStockListRequest) (*GetStockListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStockList not implemented")
-}
-func (UnimplementedMetadataServiceServer) GetModelList(context.Context, *GetModelListRequest) (*GetModelListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetModelList not implemented")
-}
-func (UnimplementedMetadataServiceServer) GetSimulationResult(*GetSimulationResultRequest, MetadataService_GetSimulationResultServer) error {
-	return status.Errorf(codes.Unimplemented, "method GetSimulationResult not implemented")
-}
-func (UnimplementedMetadataServiceServer) GetSimulationList(context.Context, *GetSimulationListRequest) (*GetSimulationListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSimulationList not implemented")
 }
 func (UnimplementedMetadataServiceServer) mustEmbedUnimplementedMetadataServiceServer() {}
 
@@ -187,7 +108,7 @@ func _MetadataService_GetUserInfo_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpcapi.MetadataService/GetUserInfo",
+		FullMethod: "/metadata.MetadataService/GetUserInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MetadataServiceServer).GetUserInfo(ctx, req.(*GetUserInfoRequest))
@@ -205,28 +126,10 @@ func _MetadataService_GetStockInfo_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpcapi.MetadataService/GetStockInfo",
+		FullMethod: "/metadata.MetadataService/GetStockInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MetadataServiceServer).GetStockInfo(ctx, req.(*GetStockInfoRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MetadataService_GetModelInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetModelInfoRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MetadataServiceServer).GetModelInfo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/grpcapi.MetadataService/GetModelInfo",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MetadataServiceServer).GetModelInfo(ctx, req.(*GetModelInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -241,67 +144,10 @@ func _MetadataService_GetStockList_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpcapi.MetadataService/GetStockList",
+		FullMethod: "/metadata.MetadataService/GetStockList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MetadataServiceServer).GetStockList(ctx, req.(*GetStockListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MetadataService_GetModelList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetModelListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MetadataServiceServer).GetModelList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/grpcapi.MetadataService/GetModelList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MetadataServiceServer).GetModelList(ctx, req.(*GetModelListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MetadataService_GetSimulationResult_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(GetSimulationResultRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(MetadataServiceServer).GetSimulationResult(m, &metadataServiceGetSimulationResultServer{stream})
-}
-
-type MetadataService_GetSimulationResultServer interface {
-	Send(*GetSimulationResultResponse) error
-	grpc.ServerStream
-}
-
-type metadataServiceGetSimulationResultServer struct {
-	grpc.ServerStream
-}
-
-func (x *metadataServiceGetSimulationResultServer) Send(m *GetSimulationResultResponse) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func _MetadataService_GetSimulationList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSimulationListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MetadataServiceServer).GetSimulationList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/grpcapi.MetadataService/GetSimulationList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MetadataServiceServer).GetSimulationList(ctx, req.(*GetSimulationListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -310,7 +156,7 @@ func _MetadataService_GetSimulationList_Handler(srv interface{}, ctx context.Con
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var MetadataService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "grpcapi.MetadataService",
+	ServiceName: "metadata.MetadataService",
 	HandlerType: (*MetadataServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -322,28 +168,10 @@ var MetadataService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MetadataService_GetStockInfo_Handler,
 		},
 		{
-			MethodName: "GetModelInfo",
-			Handler:    _MetadataService_GetModelInfo_Handler,
-		},
-		{
 			MethodName: "GetStockList",
 			Handler:    _MetadataService_GetStockList_Handler,
 		},
-		{
-			MethodName: "GetModelList",
-			Handler:    _MetadataService_GetModelList_Handler,
-		},
-		{
-			MethodName: "GetSimulationList",
-			Handler:    _MetadataService_GetSimulationList_Handler,
-		},
 	},
-	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "GetSimulationResult",
-			Handler:       _MetadataService_GetSimulationResult_Handler,
-			ServerStreams: true,
-		},
-	},
-	Metadata: "api/grpc/metadata.proto",
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "api/grpc/metadata/metadata.proto",
 }

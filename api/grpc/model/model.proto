@@ -1,18 +1,18 @@
 /*
-Package grpcapi provides the interface of the gRPC methods.
+Package model provides the interface of the gRPC methods.
 
 All commands for services to model management are provided by this interfaces.
 
 Generate gRPC code:
   protoc --go_out=. --go_opt=paths=source_relative \
   --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-  api/grpc/model.proto
+  api/grpc/model/model.proto
 */
 syntax = "proto3";
 
-package grpcapi;
+package model;
 
-option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
+option go_package = "github.com/Goboolean/command-server/api/grpc;model";
 
 // ModelService
 //
@@ -20,16 +20,13 @@ option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
 service ModelService {
 
   rpc RegisterModel(RegisterModelRequest) returns (RegisterModelResponse) {}
-
-  // Returns to the stream what state the model being simulated is in.
-  // When the simulation is finished, return access_token
-  // and allow the result to be retrieved from the join server.
-  rpc SimulationModel(SimulationModelRequest) returns (stream SimulationStatus) {}
-
   rpc EditModel(EditModelRequest) returns (EditModelResponse) {}
-
   rpc DeleteModel(DeleteModelRequest) returns (DeleteModelResponse) {}
+
+  rpc GetModelInfo(GetModelInfoRequest) returns (GetModelInfoResponse) {}
+  rpc GetModelList(GetModelListRequest) returns (GetModelListResponse) {}
 }
+
 
 
 // need implement
@@ -44,19 +41,6 @@ message RegisterModelResponse {
 }
 
 
-// need implement about parameter
-message SimulationModelRequest {
-  string user_token = 1;
-  string model_id = 2;
-  string stock_id = 3;
-  repeated int64 parameter = 4;
-}
-
-message SimulationStatus {
-  int32 status = 1;         // simulation status
-  string access_token = 2;  // token for accessing join server
-}
-
 
 // need implement
 message EditModelRequest {
@@ -70,6 +54,7 @@ message EditModelResponse {
 }
 
 
+
 message DeleteModelRequest {
   string user_token = 1;
   string model_id = 2;
@@ -77,4 +62,28 @@ message DeleteModelRequest {
 
 message DeleteModelResponse {
   int32 status = 1;
+}
+
+
+
+// Model information query command
+message GetModelInfoRequest {
+  string user_token = 1; // To verify access to information
+  string model_id = 2;
+}
+
+message GetModelInfoResponse {
+  // need implement
+}
+
+
+
+// Model list information query command
+message GetModelListRequest {
+  string user_token = 1; // To verify access to information
+  // need implement
+}
+
+message GetModelListResponse {
+  // need implement
 }

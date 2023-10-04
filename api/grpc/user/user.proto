@@ -1,18 +1,20 @@
 /*
-Package grpcapi provides the interface of the gRPC methods.
+Package user provides the interface of the gRPC methods.
 
 All commands about authorization services are provided by this interfaces.
 
 Generate gRPC code:
   protoc --go_out=. --go_opt=paths=source_relative \
   --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-  api/grpc/user.proto
+  api/grpc/user/user.proto
+
+   *** This file will be moved to the Authorization Server. ***
 */
 syntax = "proto3";
 
-package grpcapi;
+package user;
 
-option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
+option go_package = "github.com/Goboolean/command-server/api/grpc;user";
 
 // MetadataService
 //

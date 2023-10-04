@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.23.3
-// source: api/grpc/model.proto
+// source: model.proto
 
 package model
 
@@ -23,12 +23,10 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ModelServiceClient interface {
 	RegisterModel(ctx context.Context, in *RegisterModelRequest, opts ...grpc.CallOption) (*RegisterModelResponse, error)
-	// Returns to the stream what state the model being simulated is in.
-	// When the simulation is finished, return access_token
-	// and allow the result to be retrieved from the join server.
-	SimulationModel(ctx context.Context, in *SimulationModelRequest, opts ...grpc.CallOption) (ModelService_SimulationModelClient, error)
 	EditModel(ctx context.Context, in *EditModelRequest, opts ...grpc.CallOption) (*EditModelResponse, error)
 	DeleteModel(ctx context.Context, in *DeleteModelRequest, opts ...grpc.CallOption) (*DeleteModelResponse, error)
+	GetModelInfo(ctx context.Context, in *GetModelInfoRequest, opts ...grpc.CallOption) (*GetModelInfoResponse, error)
+	GetModelList(ctx context.Context, in *GetModelListRequest, opts ...grpc.CallOption) (*GetModelListResponse, error)
 }
 
 type modelServiceClient struct {
@@ -41,48 +39,16 @@ func NewModelServiceClient(cc grpc.ClientConnInterface) ModelServiceClient {
 
 func (c *modelServiceClient) RegisterModel(ctx context.Context, in *RegisterModelRequest, opts ...grpc.CallOption) (*RegisterModelResponse, error) {
 	out := new(RegisterModelResponse)
-	err := c.cc.Invoke(ctx, "/grpcapi.ModelService/RegisterModel", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/model.ModelService/RegisterModel", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *modelServiceClient) SimulationModel(ctx context.Context, in *SimulationModelRequest, opts ...grpc.CallOption) (ModelService_SimulationModelClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ModelService_ServiceDesc.Streams[0], "/grpcapi.ModelService/SimulationModel", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &modelServiceSimulationModelClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type ModelService_SimulationModelClient interface {
-	Recv() (*SimulationStatus, error)
-	grpc.ClientStream
-}
-
-type modelServiceSimulationModelClient struct {
-	grpc.ClientStream
-}
-
-func (x *modelServiceSimulationModelClient) Recv() (*SimulationStatus, error) {
-	m := new(SimulationStatus)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 func (c *modelServiceClient) EditModel(ctx context.Context, in *EditModelRequest, opts ...grpc.CallOption) (*EditModelResponse, error) {
 	out := new(EditModelResponse)
-	err := c.cc.Invoke(ctx, "/grpcapi.ModelService/EditModel", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/model.ModelService/EditModel", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +57,25 @@ func (c *modelServiceClient) EditModel(ctx context.Context, in *EditModelRequest
 
 func (c *modelServiceClient) DeleteModel(ctx context.Context, in *DeleteModelRequest, opts ...grpc.CallOption) (*DeleteModelResponse, error) {
 	out := new(DeleteModelResponse)
-	err := c.cc.Invoke(ctx, "/grpcapi.ModelService/DeleteModel", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/model.ModelService/DeleteModel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *modelServiceClient) GetModelInfo(ctx context.Context, in *GetModelInfoRequest, opts ...grpc.CallOption) (*GetModelInfoResponse, error) {
+	out := new(GetModelInfoResponse)
+	err := c.cc.Invoke(ctx, "/model.ModelService/GetModelInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *modelServiceClient) GetModelList(ctx context.Context, in *GetModelListRequest, opts ...grpc.CallOption) (*GetModelListResponse, error) {
+	out := new(GetModelListResponse)
+	err := c.cc.Invoke(ctx, "/model.ModelService/GetModelList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -103,12 +87,10 @@ func (c *modelServiceClient) DeleteModel(ctx context.Context, in *DeleteModelReq
 // for forward compatibility
 type ModelServiceServer interface {
 	RegisterModel(context.Context, *RegisterModelRequest) (*RegisterModelResponse, error)
-	// Returns to the stream what state the model being simulated is in.
-	// When the simulation is finished, return access_token
-	// and allow the result to be retrieved from the join server.
-	SimulationModel(*SimulationModelRequest, ModelService_SimulationModelServer) error
 	EditModel(context.Context, *EditModelRequest) (*EditModelResponse, error)
 	DeleteModel(context.Context, *DeleteModelRequest) (*DeleteModelResponse, error)
+	GetModelInfo(context.Context, *GetModelInfoRequest) (*GetModelInfoResponse, error)
+	GetModelList(context.Context, *GetModelListRequest) (*GetModelListResponse, error)
 	mustEmbedUnimplementedModelServiceServer()
 }
 
@@ -119,14 +101,17 @@ type UnimplementedModelServiceServer struct {
 func (UnimplementedModelServiceServer) RegisterModel(context.Context, *RegisterModelRequest) (*RegisterModelResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterModel not implemented")
 }
-func (UnimplementedModelServiceServer) SimulationModel(*SimulationModelRequest, ModelService_SimulationModelServer) error {
-	return status.Errorf(codes.Unimplemented, "method SimulationModel not implemented")
-}
 func (UnimplementedModelServiceServer) EditModel(context.Context, *EditModelRequest) (*EditModelResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditModel not implemented")
 }
 func (UnimplementedModelServiceServer) DeleteModel(context.Context, *DeleteModelRequest) (*DeleteModelResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteModel not implemented")
+}
+func (UnimplementedModelServiceServer) GetModelInfo(context.Context, *GetModelInfoRequest) (*GetModelInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetModelInfo not implemented")
+}
+func (UnimplementedModelServiceServer) GetModelList(context.Context, *GetModelListRequest) (*GetModelListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetModelList not implemented")
 }
 func (UnimplementedModelServiceServer) mustEmbedUnimplementedModelServiceServer() {}
 
@@ -151,33 +136,12 @@ func _ModelService_RegisterModel_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpcapi.ModelService/RegisterModel",
+		FullMethod: "/model.ModelService/RegisterModel",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ModelServiceServer).RegisterModel(ctx, req.(*RegisterModelRequest))
 	}
 	return interceptor(ctx, in, info, handler)
-}
-
-func _ModelService_SimulationModel_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(SimulationModelRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(ModelServiceServer).SimulationModel(m, &modelServiceSimulationModelServer{stream})
-}
-
-type ModelService_SimulationModelServer interface {
-	Send(*SimulationStatus) error
-	grpc.ServerStream
-}
-
-type modelServiceSimulationModelServer struct {
-	grpc.ServerStream
-}
-
-func (x *modelServiceSimulationModelServer) Send(m *SimulationStatus) error {
-	return x.ServerStream.SendMsg(m)
 }
 
 func _ModelService_EditModel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -190,7 +154,7 @@ func _ModelService_EditModel_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpcapi.ModelService/EditModel",
+		FullMethod: "/model.ModelService/EditModel",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ModelServiceServer).EditModel(ctx, req.(*EditModelRequest))
@@ -208,10 +172,46 @@ func _ModelService_DeleteModel_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpcapi.ModelService/DeleteModel",
+		FullMethod: "/model.ModelService/DeleteModel",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ModelServiceServer).DeleteModel(ctx, req.(*DeleteModelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ModelService_GetModelInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetModelInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ModelServiceServer).GetModelInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/model.ModelService/GetModelInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ModelServiceServer).GetModelInfo(ctx, req.(*GetModelInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ModelService_GetModelList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetModelListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ModelServiceServer).GetModelList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/model.ModelService/GetModelList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ModelServiceServer).GetModelList(ctx, req.(*GetModelListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -220,7 +220,7 @@ func _ModelService_DeleteModel_Handler(srv interface{}, ctx context.Context, dec
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ModelService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "grpcapi.ModelService",
+	ServiceName: "model.ModelService",
 	HandlerType: (*ModelServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -235,13 +235,15 @@ var ModelService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "DeleteModel",
 			Handler:    _ModelService_DeleteModel_Handler,
 		},
-	},
-	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "SimulationModel",
-			Handler:       _ModelService_SimulationModel_Handler,
-			ServerStreams: true,
+			MethodName: "GetModelInfo",
+			Handler:    _ModelService_GetModelInfo_Handler,
+		},
+		{
+			MethodName: "GetModelList",
+			Handler:    _ModelService_GetModelList_Handler,
 		},
 	},
-	Metadata: "api/grpc/model.proto",
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "model.proto",
 }

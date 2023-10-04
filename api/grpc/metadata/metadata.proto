@@ -1,30 +1,26 @@
 /*
-Package grpcapi provides the interface of the gRPC methods.
+Package metadata provides the interface of the gRPC methods.
 
-All commands for data requests are provided by this interfaces.
+Commands for metadata requests except model, simulation are provided by this interfaces.
 
 Generate gRPC code:
   protoc --go_out=. --go_opt=paths=source_relative \
   --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-  api/grpc/metadata.proto
+  api/grpc/metadata/metadata.proto
 */
 syntax = "proto3";
 
-package grpcapi;
+package metadata;
 
-option go_package = "github.com/Goboolean/command-server/api/grpc;grpcapi";
+option go_package = "github.com/Goboolean/command-server/api/grpc;metadata";
 
 // MedataService
 //
-// Provides commands for requests related to data
+// Provides commands for requests related to metadata
 service MetadataService {
   rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse) {}
   rpc GetStockInfo(GetStockInfoRequest) returns (GetStockInfoResponse) {}
-  rpc GetModelInfo(GetModelInfoRequest) returns (GetModelInfoResponse) {}
   rpc GetStockList(GetStockListRequest) returns (GetStockListResponse) {}
-  rpc GetModelList(GetModelListRequest) returns (GetModelListResponse) {}
-  rpc GetSimulationResult(GetSimulationResultRequest) returns (stream GetSimulationResultResponse) {}
-  rpc GetSimulationList(GetSimulationListRequest) returns (GetSimulationListResponse) {}
 }
 
 
@@ -48,16 +44,6 @@ message GetStockInfoResponse {
 }
 
 
-// Model information query command
-message GetModelInfoRequest {
-  string user_token = 1; // To verify access to information
-  string model_id = 2;
-}
-
-message GetModelInfoResponse {
-  // need implement
-}
-
 
 // Stock list information query command
 message GetStockListRequest {
@@ -66,37 +52,4 @@ message GetStockListRequest {
 
 message GetStockListResponse {
   // need implement
-}
-
-
-// Model list information query command
-message GetModelListRequest {
-  string user_token = 1; // To verify access to information
-  // need implement
-}
-
-message GetModelListResponse {
-  // need implement
-}
-
-
-// Simulation result information query command
-message GetSimulationResultRequest {
-  string user_token = 1; // To verify access to information
-  string simulation_id = 2;
-}
-
-message GetSimulationResultResponse {
-  int32 status = 1;
-  string access_token = 2;
-}
-
-
-// Simulation list information query command
-message GetSimulationListRequest {
-  string user_token = 1; // To verify access to information
-}
-
-message GetSimulationListResponse {
-  repeated string simulation_id = 1;
 }
